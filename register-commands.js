@@ -7,12 +7,14 @@ const commands = [
         .setDescription('Reply to a site with a message')
         .addStringOption(option => option.setName('site').setDescription('Site name').setRequired(true))
         .addStringOption(option => option.setName('message').setDescription('Message').setRequired(true)),
+
     new SlashCommandBuilder()
         .setName('dm')
         .setDescription('Send a DM to a user')
-        .addUserOption(option => option.setName('user').setDescription('User to DM').setRequired(true))
-        .addStringOption(option => option.setName('message').setDescription('Message').setRequired(true))
-].map(cmd => cmd.toJSON());
+        .addUserOption(option => option.setName('user').setDescription('User to DM').setRequired(false))
+        .addStringOption(option => option.setName('userid').setDescription('User ID or mention (if no user selected)').setRequired(false))
+        .addStringOption(option => option.setName('message').setDescription('Message to send').setRequired(true))
+].map(command => command.toJSON());
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
