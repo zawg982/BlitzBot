@@ -21,10 +21,12 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 (async () => {
     try {
         console.log('⏳ Registering slash commands...');
-        await rest.put(
-            Routes.applicationCommands(process.env.CLIENT_ID),
-            { body: commands }
-        );
+const GUILD_ID = 'your_test_server_id_here'; // Replace with your Discord server ID
+await rest.put(
+    Routes.applicationGuildCommands(process.env.CLIENT_ID, GUILD_ID), // Guild commands for instant update
+    { body: commands }
+);
+
         console.log('✅ Slash commands registered.');
     } catch (error) {
         console.error(error);
