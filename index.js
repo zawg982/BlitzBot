@@ -1,4 +1,5 @@
 const { Client, GatewayIntentBits } = require('discord.js');
+const http = require('http');
 require('dotenv').config();
 
 const client = new Client({
@@ -11,12 +12,21 @@ const client = new Client({
   partials: ['CHANNEL'], // Required to receive DM messages
 });
 
-// Log when bot is ready
+// Minimal webserver to keep Railway container alive
+const server = http.createServer((req, res) => {
+  res.writeHead(200);
+  res.end('Bot is alive!');
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Webserver running on port ${PORT}`);
+});
+
 client.once('ready', () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
 });
 
-// Listen for interaction commands
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
